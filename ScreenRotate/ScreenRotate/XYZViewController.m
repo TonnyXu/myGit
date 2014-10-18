@@ -26,13 +26,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.landscapeViewCon = [self.storyboard instantiateViewControllerWithIdentifier:@"LandscapeViewController"];
-//    self.landscapeViewCon = [[UIStoryboard
-//                                          storyboardWithName:@"LandscapeStoryboard"
-//                                          bundle:NULL]
-//                                          instantiateViewControllerWithIdentifier:@"LandscapeViewController"];
-//    self.mainLandscapeView = self.landscapeViewCon.view;
-//    self.mainPortraitView = self.view;
-
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleRotationNotification:)
