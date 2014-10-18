@@ -125,11 +125,11 @@
 				8A245F1219ED163F00C90728 /* Main.storyboard */,
 				8A245F1519ED163F00C90728 /* XYZViewController.h */,
 				8A245F1619ED163F00C90728 /* XYZViewController.m */,
+				8A245F3919EE1A9A00C90728 /* LandscapeViewController.h */,
+				8A245F3A19EE1CFA00C90728 /* LandscapeViewController.m */,
 				8A245F1819ED163F00C90728 /* Images.xcassets */,
 				8A245F3E19F0BA3100C90728 /* provinces_cities.plist */,
 				8A245F3719ED21FD00C90728 /* LandscapeStoryboard.storyboard */,
-				8A245F3A19EE1CFA00C90728 /* LandscapeViewController.m */,
-				8A245F3919EE1A9A00C90728 /* LandscapeViewController.h */,
 			);
 			path = ScreenRotate;
 			sourceTree = "<group>";

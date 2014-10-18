@@ -12,6 +12,11 @@
 
 @interface XYZViewController ()
 
+@property (nonatomic) LandscapeViewController *landscapeViewCon;
+
+
+@property (nonatomic) BOOL isShowingLandscapeView;
+
 @end
 
 @implementation XYZViewController
@@ -20,13 +25,38 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    LandscapeViewController *landscapeViewController = [[UIStoryboard
-                                          storyboardWithName:@"LandscapeStoryboard"
-                                          bundle:NULL]
-                                          instantiateViewControllerWithIdentifier:@"LandscapeViewController"];
-    self.mainLandscapeView = landscapeViewController.view;
-    self.mainPortraitView = self.view;
-    
+    self.landscapeViewCon = [self.storyboard instantiateViewControllerWithIdentifier:@"LandscapeViewController"];
+//    self.landscapeViewCon = [[UIStoryboard
+//                                          storyboardWithName:@"LandscapeStoryboard"
+//                                          bundle:NULL]
+//                                          instantiateViewControllerWithIdentifier:@"LandscapeViewController"];
+//    self.mainLandscapeView = self.landscapeViewCon.view;
+//    self.mainPortraitView = self.view;
+
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleRotationNotification:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+
+
+
+}
+
+- (void)handleRotationNotification:(NSNotification *)notification
+{
+    NSLog(@"notification: %@", notification);
+
+    UIDeviceOrientation currentDeviceOrientation = [UIDevice currentDevice].orientation;
+
+    if (UIInterfaceOrientationIsLandscape(currentDeviceOrientation) && !self.isShowingLandscapeView) {
+        //[self performSegueWithIdentifier:@"" sender:self];
+        [self presentViewController:self.landscapeViewCon animated:YES completion:nil];
+        self.isShowingLandscapeView = YES;
+    } else if (UIInterfaceOrientationIsPortrait(currentDeviceOrientation) && self.isShowingLandscapeView){
+        [self dismissViewControllerAnimated:YES completion:nil];
+        self.isShowingLandscapeView = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -43,23 +73,24 @@
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-        self.view = self.mainLandscapeView;
-        self.view.transform=CGAffineTransformMakeRotation(deg2rad*(90));
-        self.view.bounds=CGRectMake(0.0, 0.0, 480.0, 320.0);
-    } else if ( toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ){
-        self.view = self.mainLandscapeView;
-        self.view.transform=CGAffineTransformMakeRotation(deg2rad*(-90));
-        self.view.bounds=CGRectMake(0.0, 0.0, 480.0, 320.0);
-    } else {
-        self.view = self.mainPortraitView;
-        self.view.transform=CGAffineTransformMakeRotation(deg2rad*(0));
-        self.view.bounds=CGRectMake(0.0, 0.0, 320.0, 480.0);
-
-    }
-    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
+//-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+//
+//    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+//        self.view = self.mainLandscapeView;
+//        self.view.transform=CGAffineTransformMakeRotation(deg2rad*(90));
+//        self.view.bounds=CGRectMake(0.0, 0.0, 480.0, 320.0);
+//    } else if ( toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft ){
+//        self.view = self.mainLandscapeView;
+//        self.view.transform=CGAffineTransformMakeRotation(deg2rad*(-90));
+//        self.view.bounds=CGRectMake(0.0, 0.0, 480.0, 320.0);
+//    } else {
+//        self.view = self.mainPortraitView;
+//        self.view.transform=CGAffineTransformMakeRotation(deg2rad*(0));
+//        self.view.bounds=CGRectMake(0.0, 0.0, 320.0, 480.0);
+//
+//    }
+//    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+//}
 
 - (IBAction)onClick:(id)sender {
     NSDate *theDate = self.data_picker.date;
